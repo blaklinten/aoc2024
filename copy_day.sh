@@ -12,7 +12,7 @@ SOURCE_DIR="$PWD/../$DAY_TO_COPY"
 
 pushd "$SOURCE_DIR" >/dev/null || exit
 
-for item in Dockerfile solution.py input.txt; do
+for item in description.txt example-input.txt Dockerfile solution.py; do
     cp -r "$item" "$TARGET_DIR"
 done
  
