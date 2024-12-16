@@ -164,8 +164,6 @@ def is_XMAS(index, dir, neighbours, input) -> bool:
     return False
 
 def solve1(input) -> int:
-    print(input)
-
     xmas_count = 0
 
     neighbours_map = create_neighbour_map()
@@ -180,10 +178,40 @@ def solve1(input) -> int:
                 xmas_count += 1
     return xmas_count
 
+def is_X_MAS(index, neighbours, input) -> bool:
+    SE_neighbour = neighbours[index].get(Direction.SE)
+    SW_neighbour = neighbours[index].get(Direction.SW)
+    NE_neighbour = neighbours[index].get(Direction.NE)
+    NW_neighbour = neighbours[index].get(Direction.NW)
+    if SE_neighbour is None or SW_neighbour is None or NE_neighbour is None or NW_neighbour is None:
+        return False
+
+    SE_X_MAS = input[SE_neighbour] == "M" and input[NW_neighbour] == "S"
+    SW_X_MAS = input[SW_neighbour] == "M" and input[NE_neighbour] == "S"
+    NE_X_MAS = input[NE_neighbour] == "M" and input[SW_neighbour] == "S"
+    NW_X_MAS = input[NW_neighbour] == "M" and input[SE_neighbour] == "S"
+
+    return (SE_X_MAS or NW_X_MAS) and (SW_X_MAS or NE_X_MAS)
+
 def solve2(input):
-    print("part2")
+    x_mas_count = 0
+
+    neighbours_map = create_neighbour_map()
+    a_s = []
+    for index, char in enumerate(input):
+        if char == 'A':
+            a_s.append(index)
+
+    for a in a_s:
+        if is_X_MAS(a, neighbours_map, input):
+            x_mas_count += 1
+    return x_mas_count
 
 if part == "part1":
     count = solve1(get_input())
     print(count)
 
+
+elif part == "part2":
+    count = solve2(get_input())
+    print(count)
