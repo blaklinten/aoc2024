@@ -25,18 +25,24 @@ def is_safe1(report) -> int:
             continue
 
         previous = report[index - 1]
-        if not (allowed_diff(level, previous) and (previous < level) == incdec):
+        if not (allowed_diff(level, previous) and ((previous < level) == incdec)):
             return 0
     return 1
 
 def is_safe2(report) -> int:
-    return 1
+    if is_safe1(report):
+        return 1
+    else:
+        for index in range(len(report)):
+            maybe_safe = list(report)
+            maybe_safe.pop(index)
+            if is_safe1(maybe_safe):
+                return 1
+        return 0
 
 def solve1(input):
     report_status = [is_safe1(report) for report in input ]
     print(sum(report_status))
-        
-
 
 def solve2(input):
     report_status = [is_safe2(report) for report in input ]
